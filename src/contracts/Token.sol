@@ -13,4 +13,14 @@ contract Token {
         totalSupply = 1000000 * (10**18);
         balanceOf[msg.sender] = totalSupply;
     }
+
+    function transfer(address _to, uint256 _value)
+        public
+        returns (bool success)
+    {
+        balanceOf[msg.sender] -= _value;
+        balanceOf[_to] += _value;
+
+        return true;
+    }
 }
