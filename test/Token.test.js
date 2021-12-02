@@ -121,7 +121,7 @@ contract('Token', ([deployer, receiver, exchange]) => {
     });
   });
 
-  describe('sending tokens', () => {
+  describe('delegated token transfers', () => {
     let amount;
     let result;
 
@@ -161,6 +161,20 @@ contract('Token', ([deployer, receiver, exchange]) => {
         event.value
           .toString()
           .should.equal(amount.toString(), 'value is correct');
+      });
+    });
+    describe('failure', () => {
+      it('rejects insufficient balances', async () => {
+        let invalidAmount;
+        invalidAmount = tokens(100000000); // 100 million
+        await token
+          .transferFrom(deployer, receiver, invalidAmount, { from: exchange })
+          .should.be.rejectedWith(EVM_REVERT);
+      });
+
+      it('rejects invalid recipients', async () => {
+        await token.transferFrom(deployer, 0x0, amount, { from: exchange })
+          .should.be.rejected;
       });
     });
   });
