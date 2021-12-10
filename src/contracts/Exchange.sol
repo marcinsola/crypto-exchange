@@ -16,6 +16,16 @@ contract Exchange {
         uint256 balance
     );
 
+    struct _Order {
+        uint256 id;
+        address user;
+        address tokenGet;
+        uint amountGet;
+        address tokenGive;
+        address amountGive;
+        uint timestamp;
+    }
+
     constructor(address _feeAccount, uint256 _feePercent) {
         feeAccount = _feeAccount;
         feePercent = _feePercent;
